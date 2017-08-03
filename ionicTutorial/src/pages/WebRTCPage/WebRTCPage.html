@@ -1,0 +1,59 @@
+<!--<ion-header>-->
+  <!--<ion-navbar color="primary">-->
+    <!--<ion-title>PPLINK</ion-title>-->
+  <!--</ion-navbar>-->
+<!--</ion-header>-->
+
+<ion-header>
+  <ion-toolbar color="primary">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>WebRTC</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content padding text-center>
+  <ion-card>
+    {{ localStream?.id }}
+    <video #local id="local_video" [srcObject]="localStream" autoplay muted width="200" height="200"></video>
+    <ion-card-content>
+      <ion-card-title style="font-weight:bold">
+        YOU
+      </ion-card-title>
+      <button ion-button (click)="changeLocalStream()">
+        <ion-icon name="reverse-camera"></ion-icon>
+      </button>
+    </ion-card-content>
+  </ion-card>
+  <ion-card *ngFor="let room of rooms">
+    <img [src]="room.image"/>
+    <ion-card-content>
+      <ion-card-title>
+        {{ room.name }}
+      </ion-card-title>
+      <p>
+        {{ room.info }}
+      </p>
+    </ion-card-content>
+    <ion-row no-padding>
+      <ion-col>
+        <button ion-button clear small color="danger" icon-start (click)="clickRoom(room)">
+          <ion-icon name='star'></ion-icon>
+          Join
+        </button>
+      </ion-col>
+      <ion-col text-center>
+        <button ion-button clear small color="danger" icon-start>
+          <ion-icon name='musical-notes'></ion-icon>
+          comment
+        </button>
+      </ion-col>
+      <ion-col text-right>
+        <button ion-button clear small color="danger" icon-start>
+          <ion-icon name='share-alt'></ion-icon>
+          Share
+        </button>
+      </ion-col>
+    </ion-row>
+  </ion-card>
+</ion-content>

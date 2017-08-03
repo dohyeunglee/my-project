@@ -1,0 +1,48 @@
+.middle{
+    margin-top: 70px;
+}
+.middle2{
+    padding-top: 30px;
+}
+.btn-link {
+    padding: 5px 10px 0px 0px;
+    color: #95a5a6
+}
+.btn-link:hover, btn_link:focus{
+    color: #2c3e50;
+    text-decoration: none;
+}
+img{
+    display: block;
+    margin: auto;
+}
+
+.adjust1{
+    padding-top: 5px;
+}
+.adjust2{
+    margin-bottom: 20px;
+    margin-top:20px;
+}
+.adjust_header{
+    margin-bottom: 30px;
+}
+.adjust3{
+    width: 90%;
+}
+.adjust4{
+    margin-right: 30px;
+}
+.adjust5{
+    margin-bottom: 30px;
+}
+
+.span_font{
+    font-size: 19px;
+}
+
+.media-body {
+  overflow:visible;
+}
+
+

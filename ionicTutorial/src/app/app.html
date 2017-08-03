@@ -1,0 +1,29 @@
+<ion-menu id="main-menu" persistent [content]="content">
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>Menu</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content>
+    <ion-list>
+      <ion-list-header color="light">
+        로그인/로그아웃
+      </ion-list-header>
+      <button ion-item icon-start>
+        <ion-icon name="contact"></ion-icon>
+        Login/Logout
+      </button>
+      <ion-list-header color="light">
+        Pages
+      </ion-list-header>
+      <button ion-item icon-start *ngFor="let p of pages" (click)="openPage(p)">
+        <ion-icon [name]="p.icon"></ion-icon>
+        {{p.title}}
+      </button>
+    </ion-list>
+  </ion-content>
+
+</ion-menu>
+
+<ion-nav [root]="rootPage" #content swipeBackEnabled="false"></ion-nav>

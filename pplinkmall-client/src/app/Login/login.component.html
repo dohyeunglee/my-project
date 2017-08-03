@@ -1,0 +1,165 @@
+<div *ngIf="!loginService.loggedIn"
+     style="width:100%;height:100%;position:relative;top:-20px;
+            background-image:url('../../assets/images/background2.jpg');
+            background-size:100%">
+  <div style="padding-top:180px;width:500px;height:300px;margin:auto">
+    <img src="../../assets/images/logo.png" style="margin-left:100px;margin-bottom:50px;width:60%">
+    <form #loginForm="ngForm">
+        <div *ngIf="login_fail && !init" class="alert alert-danger" style="width:300px;margin:auto;margin-bottom:5px;text-align:center;font-size:15px;font-weight:bold">
+          WRONG ID OR PASSWORD
+        </div>
+        <div class="form-group">
+            <input type="text"
+                   class="form-control"
+                   placeholder="Type your ID"
+                   [(ngModel)]="id"
+                   name="id"
+                   #user_id="ngModel"
+                   style="margin:auto;width:300px;height:50px;
+                          border-bottom-left-radius:0;border-bottom-right-radius:0;
+                          border-top-left-radius:10px;border-top-right-radius:10px;
+                          border: 3px solid rgb(229, 229, 229); border-bottom-width:0"
+                   [style.border-left]="id ? '4px solid #42A948' : (user_id.pristine ? '3px solid rgb(229, 229, 229)' : '4px solid red')"
+                   required autofocus>
+            <div [hidden]="user_id.valid || user_id.pristine" style="padding:6px;color:red;width:300px;margin:auto;font-weight:bold">
+              Please Enter the id
+            </div>
+            <input type="password"
+                   class="form-control"
+                   placeholder="Type your pwd"
+                   [(ngModel)]="pwd"
+                   name="pwd "
+                   #user_pwd="ngModel"
+                   style="margin:auto;width:300px;height:50px;
+                          border-top-left-radius:0;border-top-right-radius:0;
+                          border-bottom-left-radius:10px;border-bottom-right-radius:10px;
+                          border: 3px solid rgb(229, 229, 229)"
+                   [style.border-left]="pwd ? '4px solid #42A948' : (user_pwd.pristine ? '3px solid rgb(229, 229, 229)' : '4px solid red')"
+                   required>
+            <div [hidden]="user_pwd.valid || user_pwd.pristine" style="padding:6px;color:red;width:300px;margin:auto;font-weight:bold">
+              Please Enter the password
+            </div>
+        </div>
+        <div style="padding-left:100px">
+          <button type="submit" class="btn btn-default"
+                  [disabled]="!loginForm.form.valid"
+                  style="color:white;background-color:black;width:300px;height:40px"
+                  (click)="login(id, pwd)">SIGN IN</button>
+        </div>
+        <div style="text-align:center;margin-top:10px;color:deepskyblue;font-weight:bold;font-size:17px">
+          <a (click)="staticModal.show()" style="cursor:pointer">REGISTER</a>
+        </div>
+    </form>
+  </div>
+</div>
+<div *ngIf="loginService.loggedIn">
+  <h2>User <strong>{{loginService.logInUser}}</strong> logged in</h2>
+</div>
+<div class="modal fade" bsModal #staticModal="bs-modal"
+     tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title pull-left" style="font-weight:bold">회원가입</h3>
+        <button type="button"
+                class="close pull-right"
+                aria-label="close"
+                (click)="staticModal.hide()">
+          <span>&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div *ngIf="register_status && register_status !== 'SUCCESS'"
+             class="alert alert-danger">
+          {{register_status}}
+        </div>
+        <div class="form-horizontal">
+          <div>
+            <label for="register_id">ID</label>
+          </div>
+          <div>
+            <input type="text"
+                   id="register_id"
+                   placeholder="id"
+                   pattern="[A-Za-z]+[0-9]*"
+                   [(ngModel)]="registerId"
+                   name="register_id"
+                   maxlength="20"
+                   #register_id="ngModel"
+                   style="width:220px;height:40px;padding:6px 12px"
+                   (keyup)="duplicateId = undefined"
+                   [style.border-left]="registerId && register_id.valid && duplicateId !== true ? '4px solid #42A948' : (register_id.pristine ? '' : '4px solid red')"
+                   required/>
+            <button type="button" class="btn" style="height:40px;width:40px;background-color:white;border:1px solid;border-radius:0"
+                    (click)="idCheck(loginForm)" [disabled]="!registerId || register_id.invalid">
+              <span class="glyphicon glyphicon-ok"></span>
+            </button>
+          </div>
+          <div *ngIf="!register_id.valid && !register_id.pristine" style="padding:6px;color:red;width:300px;margin:auto;font-weight:bold">
+            아이디를 입력해주세요
+          </div>
+          <div  *ngIf="duplicateId === true" style="padding:6px;color:red;width:300px;margin:auto;font-weight:bold">
+            아이디가 중복되었습니다.
+          </div>
+          <div *ngIf="duplicateId === false" style="padding:6px;color:#42A948;width:300px;margin:auto;font-weight:bold">
+            사용 가능한 아이디입니다
+          </div>
+          <div style="margin-top:10px">
+            <label for="register_password">PASSWORD</label>
+          </div>
+          <div>
+            <input type="password"
+                   id="register_password"
+                   placeholder="Password"
+                   [(ngModel)]="registerPwd"
+                   name="register_password"
+                   #register_pwd="ngModel"
+                   style="width:260px;height:40px;padding:6px 12px"
+                   [style.border-left]="registerPwd ? '4px solid #42A948' : (register_pwd.pristine ? '' : '4px solid red')"
+                   required />
+          </div>
+          <div [hidden]="register_pwd.valid || register_pwd.pristine" style="padding:6px;color:red;width:300px;margin:auto;font-weight:bold">
+            비밀번호를 입력해주세요
+          </div>
+          <div style="margin-top:10px">
+            <label for="password_confirm">
+              CONFIRM
+            </label>
+          </div>
+          <div>
+            <input type="password"
+                   id="password_confirm"
+                   name="register_pwd_confirm"
+                   placeholder="Type password again"
+                   (keyup)="passwordCheck($event.target.value)"
+                   style="width:260px;height:40px;padding:6px 12px"
+                   [style.border-left]="pwdCheck === false ? '4px solid red' : (pwdCheck === undefined ? '' : '4px solid #42A948')"
+                   #confirm
+                   required/>
+          </div>
+          <div *ngIf="pwdCheck !== undefined && !pwdCheck" style="padding:6px;color:red;width:300px;margin:auto;font-weight:bold">
+            비밀번호가 일치하지 않습니다
+          </div>
+          <button *ngIf="register_status === undefined"
+                  type="submit"
+                  style="margin-top:20px;width:100%"
+                  class="btn btn-default"
+                  (click)="register(registerId, registerPwd);"
+                  [disabled]="!register_id.valid || !register_pwd.valid || !pwdCheck ">
+            <strong>REGISTER</strong>
+          </button>
+          <div *ngIf="register_status === 'SUCCESS'"
+               style="margin-top:20px;width:100%;text-align:center;font-weight:bold"
+               class="alert alert-success">
+            회원가입에 성공하였습니다
+          </div>
+          <div *ngIf="register_status === 'FAIL'"
+               style="margin-top:20px;width:100%;text-align:center;font-weight:bold"
+               class="alert alert-danger">
+            회원가입 오류 발생
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

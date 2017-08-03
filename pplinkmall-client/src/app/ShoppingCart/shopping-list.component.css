@@ -1,0 +1,46 @@
+.middle{
+    margin-top: 70px;
+}
+.adjust1{
+    padding-top: 5px;
+}
+.adjust2{
+    margin-bottom: 20px;
+}
+.adjust5{
+    margin-bottom: 80px;
+}
+
+img{
+    display: block;
+    margin: auto;
+    width: 70%;
+}
+h1{
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+th{
+    text-align: center;
+    vertical-align: middle;
+}
+.custom_table>tbody>tr>td{
+    text-align: center;
+    vertical-align: middle;
+}
+table{
+    table-layout: fixed;
+}
+.width_adjust{
+    width: 30%;
+}
+
+th>strong{
+  font-size:20px;
+}
+
+.nav>li>a:hover {
+  cursor: pointer;
+}
+
+

@@ -1,0 +1,29 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Room {{ selectedRoom?.name }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+    <video autoplay muted width="200" height="200" [srcObject]="localStream"></video>
+    <ion-card-content style="font-weight:bold">
+      <p style="font-weight:bold">YOU</p>
+      <label for="message">Message</label>
+      <input id="message" type="text" [(ngModel)]="messageValue" [disabled]="rtcService.messageDisabled">
+      <button (click)="sendMessage(messageValue)" [disabled]="rtcService.sendButtonDisabled">SEND</button>
+    </ion-card-content>
+    <p *ngFor="let message of rtcService.messages">
+      {{ message.from }}: {{ message.data }}
+    </p>
+  </ion-card>
+  <ion-card *ngFor="let peer of rtcService.peerConnections">
+    <video autoplay width="200" height="200" [srcObject]="peer?.remoteStream"></video>
+    <ion-card-content>
+      {{ peer?.target }}
+    </ion-card-content>
+  </ion-card>
+</ion-content>

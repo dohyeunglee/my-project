@@ -1,0 +1,17 @@
+<div style="margin:auto; width:1150px; margin-top:90px">
+  <div *ngFor="let product of productService.products" class="gallery media-body" (click)="goProduct(product.id)" style="cursor:pointer;">
+    <img [src]="product?.image">
+    <div *ngIf="product?.number !== 0" class="desc">
+        <ul style="list-style-type:none;padding:0;">
+          <li><strong>{{product?.name}}</strong></li>
+          <li>가격: {{product?.price}}원</li>
+        </ul>
+    </div>
+    <div class="desc" style="width:100%" *ngIf="product.number === 0">
+      <span style="color:red; font-weight:bold; font-size:20px">Sold out</span>
+    </div>
+  </div>
+</div>
+
+
+

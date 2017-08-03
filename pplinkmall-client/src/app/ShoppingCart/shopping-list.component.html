@@ -1,0 +1,97 @@
+<div style="padding-top:60px;margin:auto;width:1100px">
+  <h1 style="margin-bottom:50px;border-bottom:4px solid;font-weight:bold"><span class="glyphicon glyphicon-shopping-cart"></span> 장바구니</h1>
+    <div>
+      <table class="custom_table table" style="width:100%;border-top:3px solid #e6e6e6;border-bottom:3px solid #e6e6e6">
+        <tr style="background-color:#e6e6e6">
+          <th style="width:50px"><input type="checkbox" name="checked" (click)="checkAll()" checked></th>
+          <th style="width:300px"><strong>상품 정보</strong></th>
+          <th style="width:375px"><strong>옵션 정보</strong></th>
+          <th style="width:125px"><strong>수량</strong></th>
+          <th style="width:125px"><strong>상품금액</strong></th>
+          <th style="width:125px"><strong>주문</strong></th>
+        </tr>
+        <tr *ngFor="let cart of carted; let i = index">
+          <td>
+            <input [id]="cart + i"
+                   type="checkbox"
+                   name="checked"
+                   [checked]="cart.checked"
+                   (click)="changeChecked(i)">
+          </td>
+          <td style="border-left:1px solid #e6e6e6; padding-top:15px;padding-bottom:5px">
+            <div class="media-left" style="width:50%" *ngIf="productService.products">
+              <img class="center-block" style="height:100px;width:100px;margin-left:10px;border-radius:10px"
+                  [src]="productService.products[cart.product-1].image" (click)="goProduct(cart.product)">
+            </div>
+            <div class="media-body" style="font-size:12px;text-align:left;padding:6px">
+                  <p *ngIf="productService.products"><strong style="font-size:15px">{{productService.products[cart.product-1]?.name}}</strong></p>
+              <p *ngIf="productService.products">{{productService.products[cart.product-1]?.info}}</p>
+              <p *ngIf="productService.products">₩{{productService.products[cart.product-1]?.price}}</p>
+            </div>
+          </td>
+          <td style="border-left:1px solid #e6e6e6">
+            <div style="text-align:left">
+              <div style="border-bottom:1px dotted #e6e6e6">
+                <span>옵션</span>
+                <ul style="list-style-type:none;color:#4e6ccc">
+                  <li *ngFor="let opt of cart.option">{{opt.option}} : {{opt.number}}개({{opt.price}}원)</li>
+                </ul>
+              </div>
+              <div style="text-align:left;margin-top:7px">
+                <span>색/사이즈</span>
+                <ul style="list-style-type:none;color:#4e6ccc">
+                  <li *ngFor="let select of cart.select">{{select.color}} / {{select.size}} : {{select.number}}개</li>
+                </ul>
+              </div>
+            </div>
+          </td>
+          <td style="border-left:1px solid #e6e6e6">
+            <span style="font-size:15px;font-weight:bold">{{getSelectNumber(cart.select)}}개</span><span>(옵션: {{getOptionNumber(cart.option)}}개)</span>
+            <span *ngIf="cart.product.number === 0"><strong>Sold Out</strong></span>
+          </td>
+          <td style="border-left:1px solid #e6e6e6;font-size:20px">
+            <span style="color:#f43142;font-weight:bold">{{getCartedTotal(cart)}}</span><span style="color:#f43142">원</span>
+          </td>
+          <td style="border-left:1px solid #e6e6e6">
+            <button class="btn btn-default" (click)="insertBuy(i, staticModal2)"><strong>주문</strong></button>
+            <button class="btn btn-danger" (click)="deleteCart(i)" style="margin-top:10px">삭제</button>
+          </td>
+        </tr>
+      </table>
+      <div style="border-bottom:3px solid #e6e6e6;height:60px;text-align:right;position:relative;top:-10px">
+        <span style="position:relative;left:-100px;font-size:20px;font-weight:bold">전체 금액: </span>
+        <span style="color:#f43142;font-weight:bold;font-size:30px;position:relative;left:-10px">{{getTotal(carted)}}</span><span style="color:#f43142;position:relative;left:-10px">원</span>
+      </div>
+      <div class="btn-group" style="float:right;margin-top:10px">
+        <button class="btn btn-default" style="width:100px;height:50px" (click)="insertSelectedBuy(staticModal2)">선택 주문</button>
+        <button class="btn btn-danger" (click)="deleteSelectedCart()" style="width:100px;height:50px">선택 삭제</button>
+      </div>
+    </div>
+</div>
+<div class="modal fade" bsModal #staticModal2="bs-modal" [config]="{backdrop: 'static'}"
+     tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title pull-left"><strong>상품 구매</strong></h4>
+        <button type="button"
+                class="close pull-right"
+                aria-label="Close"
+                (click)="staticModal2.hide();">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" style="text-align:center">
+        <div>
+          <h4>구매 성공</h4>
+          <h6 style="color:#666">바로 확인하시겠습니까?</h6>
+        </div>
+        <a [routerLink]="['/mypage']">
+          <button type="button" class="btn btn-default">Yes</button>
+        </a>
+        <a (click)="staticModal2.hide()">
+          <button type="button" class="btn btn-default">No</button>
+        </a>
+      </div>
+    </div>
+  </div>

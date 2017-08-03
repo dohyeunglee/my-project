@@ -1,0 +1,46 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Products</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-card class="cards-bg" style="margin-top:30px" *ngFor="let product of productsList">
+    <img [src]="product.image"/>
+
+    <ion-card-content>
+      <ion-card-title>
+        {{product.name}}
+        <span style="float:right">${{product.price}}</span>
+      </ion-card-title>
+      <p>
+        {{product.info}}
+      </p>
+    </ion-card-content>
+
+    <ion-row no-padding>
+      <ion-col>
+        <button ion-button clear small color="danger" icon-start>
+          <ion-icon name='star'></ion-icon>
+          Favorite
+        </button>
+      </ion-col>
+      <ion-col text-center>
+        <button ion-button clear small color="danger" icon-start>
+          <ion-icon name='musical-notes'></ion-icon>
+          comment
+        </button>
+      </ion-col>
+      <ion-col text-right>
+        <button ion-button clear small color="danger" icon-start>
+          <ion-icon name='share-alt'></ion-icon>
+          Share
+        </button>
+      </ion-col>
+    </ion-row>
+
+  </ion-card>
+</ion-content>

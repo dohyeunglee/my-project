@@ -1,0 +1,27 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>PPLINK</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content padding>
+  <div *ngIf="!loginService.loggedIn">
+    <ion-list>
+      <ion-list-header text-center style="font-size:25px;font-weight:bold">
+        LOGIN
+      </ion-list-header>
+      <ion-item>
+        <ion-label floating>Username</ion-label>
+        <ion-input type="text" [(ngModel)]="id" autofocus></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>Password</ion-label>
+        <ion-input type="password" [(ngModel)]="pwd"></ion-input>
+      </ion-item>
+      <ion-item text-right>
+        <button ion-button large outline (click)="login(id, pwd)">Submit</button>
+      </ion-item>
+    </ion-list>
+  </div>
+</ion-content>

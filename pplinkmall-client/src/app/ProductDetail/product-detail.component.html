@@ -1,0 +1,239 @@
+<div style="margin:auto; width:1100px; margin-top:90px;">
+  <h2 class="adjust1 adjust5"
+      style="border-bottom:3px solid; padding-bottom:10px;">
+      <strong>
+        {{product?.info}}
+      </strong>
+  </h2>
+  <div class="media-left">
+    <img class="center-block media-object"
+         style="margin-top:20px"
+         [src]="product?.image"
+         alt="product_picture">
+  </div>
+  <div style="padding-left:50px;" class="media-body">
+    <div class="media-heading">
+      <h2><strong>{{product?.name}}</strong></h2>
+    </div>
+    <div class="media-heading">
+      <h2 style="margin-top:20px;margin-bottom:20px">₩{{product?.price}}</h2>
+    </div>
+    <div style="border-top:2px solid #e6e6e6;padding-left:10px;margin-top:10px;width:380px">
+      <div class="media-heading" style="margin-top:10px">
+       <span style="font-size:20px">Option</span>
+      </div>
+      <div class="btn-group" dropdown>
+       <button dropdownToggle type="button" class="btn btn-default dropdown-toggle"
+               style="width:350px;padding:10px;border-radius:0">
+         <div style="text-align:left">
+           <span *ngIf="!optionSelected">Optional</span>
+           <span *ngIf="optionSelected">{{optionSelected}}</span>
+           <span class="caret" style="float:right; margin-top:9px"></span>
+         </div>
+       </button>
+       <ul *dropdownMenu class="dropdown-menu">
+          <li *ngIf="option" class="dropdown-header" style="font-size:15px">Choose one</li>
+         <li *ngIf="!option" class="dropdown-header" style="width:350px">No Option Available</li>
+          <li *ngFor="let opt of option" style="width:350px">
+           <a style="cursor: pointer" (click)="optionSelected=$event.target.innerHTML.trim();putOption()">
+              {{opt.options}}(+{{opt.price}}원)
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div style="border-top:2px solid #e6e6e6;padding-left:10px;margin-top:20px;width:380px">
+      <div class="media-heading" style="margin-top:10px">
+        <span class="span_font" style="font-size:20px">Color</span>
+      </div>
+      <div class="btn-group" dropdown>
+        <button dropdownToggle type="button" class="btn btn-default dropdown-toggle"
+               style="width:350px;padding:10px;border-radius:0"
+               (click)="showOriginal('color')">
+          <div style="text-align:left">
+           <span *ngIf="!colorSelected">Please Choose One</span>
+           <span *ngIf="colorSelected">{{colorSelected}}</span>
+           <span class="caret" style="float:right; margin-top:9px"></span>
+          </div>
+        </button>
+        <ul *dropdownMenu class="dropdown-menu">
+         <li class="dropdown-header" style="font-size:15px;width:350px">Choose one</li>
+         <li *ngFor="let col of color" style="width:350px">
+           <a style="cursor: pointer" (click)="adjustColor($event.target.innerHTML.trim());putSelect()">
+             {{col}}
+           </a>
+         </li>
+        </ul>
+      </div>
+    </div>
+    <div style="border-top:2px solid #e6e6e6;padding-left:10px;margin-top:20px;width:380px">
+      <div class="media-heading" style="margin-top:10px">
+        <span class="span_font" style="font-size:20px">Size</span>
+      </div>
+      <div class="btn-group" dropdown>
+        <button dropdownToggle type="button" class="btn btn-default dropdown-toggle"
+                style="width:350px;padding:10px;border-radius:0"
+                (click)="showOriginal('size')">
+          <div style="text-align:left">
+           <span *ngIf="!sizeSelected">Please Choose One</span>
+           <span *ngIf="sizeSelected">{{sizeSelected}}</span>
+           <span class="caret" style="float:right; margin-top:9px"></span>
+          </div>
+        </button>
+        <ul *dropdownMenu class="dropdown-menu">
+         <li class="dropdown-header" style="font-size:15px;width:350px">Choose one</li>
+          <li *ngFor="let sz of size" style="width:350px">
+           <a style="cursor: pointer" (click)="adjustSize($event.target.innerHTML.trim());putSelect();">
+             {{sz}}
+           </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div *ngIf="colSizeReady[0] || optionReady[0]" style="background-color:#f2f2f2; margin-top:20px; width:380px; padding:10px; border-top:0.1px solid #bfbfbf">
+      <div *ngIf="optionReady[0]">
+        <strong style="font-size:15px">Options</strong>
+        <ul style="padding:10px">
+          <li *ngFor="let opt of optionReady" style="list-style-type: none;border-bottom:1px solid #bfbfbf; padding-bottom:10px; padding-top:10px">
+            {{opt.option}}
+            <div>
+              <button style="float:right;background-color:white;border:1px solid #bfbfbf"
+                      (click)="deleteOption(opt)">
+                x
+              </button>
+              <span style="float:right;margin-right:8px;font-size:20px;line-height:23px">{{opt.price * opt.number}}원</span>
+            </div>
+            <div style="margin-top:10px">
+              <button style="background-color:white;border:1px solid #bfbfbf;width:23px;height:23px"
+                      (click)="changeNumberOption(numberOption, opt, 'minus')">
+                -
+              </button>
+              <input style="width:30px;height:23px;position:relative;left:-4px;top:-0.5px;border:1px solid #bfbfbf;text-align:center"
+                     type="text"
+                     value="1"
+                     (blur)="changeNumberOption(numberOption, opt)"
+                     (keyup.enter)="changeNumberOption(numberOption, opt)" #numberOption>
+              <button style="background-color:white;border:1px solid #bfbfbf;width:23px;height:23px;position:relative;left:-8px"
+                      (click)="changeNumberOption(numberOption, opt, 'plus')">
+                +
+              </button>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div *ngIf="colSizeReady[0]">
+        <strong style="font-size:15px">Details</strong>
+        <ul style="padding:10px">
+          <li *ngFor="let colsz of colSizeReady" style="list-style-type: none;border-bottom:1px solid #bfbfbf; padding-bottom:10px; padding-top:10px">
+            {{colsz.color}} / {{colsz.size}}
+            <div>
+              <button style="float:right;background-color:white;border:1px solid #bfbfbf"
+                      (click)="deleteSelect(colsz)">
+                x
+              </button>
+              <span style="float:right;margin-right:8px;font-size:20px;line-height:23px">{{product.price * colsz.number}}원</span>
+            </div>
+            <div style="margin-top:10px">
+              <button style="background-color:white;border:1px solid #bfbfbf;width:23px;height:23px"
+                      (click)="changeNumberSelect(numberSelect, colsz, 'minus')">
+                -
+              </button>
+              <input style="width:30px;height:23px;position:relative;left:-4px;top:-0.5px;border:1px solid #bfbfbf;text-align:center"
+                     type="text"
+                     value="1"
+                     (blur)="changeNumberSelect(numberSelect, colsz)"
+                     (keyup.enter)="changeNumberSelect(numberSelect, colsz)" #numberSelect>
+              <button style="background-color:white;border:1px solid #bfbfbf;width:23px;height:23px;position:relative;left:-8px"
+                      (click)="changeNumberSelect(numberSelect, colsz, 'plus')">
+                +
+              </button>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div *ngIf="optionReady[0] || colSizeReady[0]" style="width:380px;border-top:2px solid #e6e6e6;border-bottom:2px solid #e6e6e6;margin-top:20px;padding-top:15px;padding-bottom:15px">
+      <strong>총 합계금액</strong>
+      <span style="float:right;line-height:30px">원</span>
+      <span style="float:right;color:#f43142;font-size:28px;font-weight:bold;line-height:22px">{{total}}</span>
+    </div>
+    <div style="margin-top:50px; text-align:right; padding-right:30px; padding: 10px" class="btn-group" role="group">
+      <button type="button"
+              class="btn btn-default "
+              style="width:180px;height:50px;border-radius:0;font-size:20px;font-weight:bold"
+              (click)="insertBuy(staticModal2)">
+        Buy
+      </button>
+      <button type="button"
+              class="btn"
+              style="width:180px;height:50px;
+              border-radius:0;
+              background-color:black;color:white;
+              font-size:20px;font-weight:bold"
+              (click)="insertCart(staticModal1)">
+        Add To Cart
+      </button>
+      <div class="modal fade" bsModal #staticModal1="bs-modal" [config]="{backdrop: 'static'}"
+           tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title pull-left"><strong>장바구니 담기</strong></h4>
+              <button type="button"
+                      class="close pull-right"
+                      aria-label="Close"
+                      (click)="staticModal1.hide();">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body" style="text-align:center">
+              <div>
+                <h5>상품이 장바구니에 담겼습니다</h5>
+                <h6 style="color:#666">바로 확인하시겠습니까?</h6>
+              </div>
+              <a [routerLink]="['/shoppinglist']">
+                <button type="button" class="btn btn-default">Yes</button>
+              </a>
+              <a (click)="staticModal1.hide()">
+                <button type="button" class="btn btn-default">No</button>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal fade" bsModal #staticModal2="bs-modal" [config]="{backdrop: 'static'}"
+           tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title pull-left"><strong>상품 구매</strong></h4>
+              <button type="button"
+                      class="close pull-right"
+                      aria-label="Close"
+                      (click)="staticModal2.hide();">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body" style="text-align:center">
+              <div>
+                <h4>구매 성공</h4>
+                <h6 style="color:#666">바로 확인하시겠습니까?</h6>
+              </div>
+              <a [routerLink]="['/mypage']">
+                <button type="button" class="btn btn-default">Yes</button>
+              </a>
+              <a (click)="staticModal2.hide()">
+                <button type="button" class="btn btn-default">No</button>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="media-right" style="padding-right:5px;position:relative;top:-30px;border-left:2px solid #e6e6e6;border-right:2px solid #e6e6e6;border-bottom:2px solid #e6e6e6;text-align:center">
+    <h4 style="font-weight:bold">최근 본 상품</h4>
+    <img *ngFor="let recent of recents" [src]="recent.image" style="width:150px;height:150px;margin:10px;cursor:pointer;border:1px solid #e6e6e6" (click)="goProduct(recent.id)">
+  </div>
+</div>
+
